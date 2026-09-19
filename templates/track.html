@@ -1,0 +1,455 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>CivicPulse | Track Complaint</title>
+
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='style.css') }}">
+
+    <style>
+
+        .tracking-page {
+            min-height: 80vh;
+            padding: 80px 24px;
+        }
+
+        .tracking-container {
+            max-width: 800px;
+            margin: auto;
+        }
+
+        .tracking-card {
+            background: white;
+            border: 1px solid #e1e7ee;
+            border-radius: 18px;
+            padding: 35px;
+            box-shadow:
+                0 15px 40px rgba(34, 48, 64, 0.06);
+        }
+
+        .tracking-header {
+            margin-bottom: 30px;
+        }
+
+        .tracking-header h1 {
+            font-size: 36px;
+            margin-top: 8px;
+            letter-spacing: -1px;
+        }
+
+        .tracking-header p {
+            color: #6d7889;
+            margin-top: 8px;
+        }
+
+        .tracking-id {
+            background: #f3f8fa;
+            border: 1px solid #dcecef;
+            border-radius: 12px;
+            padding: 18px;
+            margin-bottom: 25px;
+        }
+
+        .tracking-id span {
+            display: block;
+            color: #7a8697;
+            font-size: 11px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .tracking-id strong {
+            display: block;
+            margin-top: 4px;
+            color: #176b87;
+            font-size: 20px;
+        }
+
+        .tracking-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+        }
+
+        .tracking-item {
+            border: 1px solid #e5e9ee;
+            border-radius: 11px;
+            padding: 17px;
+        }
+
+        .tracking-item span {
+            display: block;
+            color: #8993a1;
+            font-size: 10px;
+            text-transform: uppercase;
+            letter-spacing: 0.8px;
+        }
+
+        .tracking-item strong {
+            display: block;
+            margin-top: 5px;
+            font-size: 14px;
+            color: #263345;
+        }
+
+        .status-badge {
+            display: inline-block;
+            background: #fff5dd;
+            color: #9a6700;
+            padding: 5px 10px;
+            border-radius: 20px;
+            font-size: 12px;
+        }
+
+        .timeline {
+            margin-top: 35px;
+        }
+
+        .timeline h2 {
+            font-size: 20px;
+            margin-bottom: 20px;
+        }
+
+        .timeline-item {
+            display: flex;
+            gap: 15px;
+            position: relative;
+            padding-bottom: 25px;
+        }
+
+        .timeline-dot {
+            width: 13px;
+            height: 13px;
+            background: #176b87;
+            border-radius: 50%;
+            margin-top: 5px;
+            flex-shrink: 0;
+        }
+
+        .timeline-item:not(:last-child)::before {
+            content: "";
+            position: absolute;
+            left: 6px;
+            top: 18px;
+            width: 1px;
+            height: calc(100% - 18px);
+            background: #dbe3e8;
+        }
+
+        .timeline-item h3 {
+            font-size: 14px;
+        }
+
+        .timeline-item p {
+            font-size: 12px;
+            color: #7a8697;
+            margin-top: 3px;
+        }
+
+        .back-button {
+            margin-top: 30px;
+        }
+
+        @media (max-width: 600px) {
+
+            .tracking-page {
+                padding: 50px 17px;
+            }
+
+            .tracking-card {
+                padding: 22px;
+            }
+
+            .tracking-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .tracking-header h1 {
+                font-size: 30px;
+            }
+
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+    <!-- NAVBAR -->
+
+    <header class="navbar">
+
+        <div class="nav-container">
+
+            <a href="/" class="logo">
+
+                <span class="logo-mark">
+                    CP
+                </span>
+
+                <span class="logo-text">
+                    Civic<span>Pulse</span>
+                </span>
+
+            </a>
+
+            <nav class="nav-links">
+
+                <a href="/">
+                    Home
+                </a>
+
+                <a href="/#report">
+                    Report Issue
+                </a>
+
+                <a href="/#about">
+                    About
+                </a>
+
+            </nav>
+
+        </div>
+
+    </header>
+
+
+    <!-- TRACKING PAGE -->
+
+    <main class="tracking-page">
+
+        <div class="tracking-container">
+
+            <div class="tracking-card">
+
+                <div class="tracking-header">
+
+                    <span class="section-label">
+                        COMPLAINT TRACKING
+                    </span>
+
+                    <h1>
+                        Track your complaint
+                    </h1>
+
+                    <p>
+                        Here is the latest information available
+                        for your civic complaint.
+                    </p>
+
+                </div>
+
+
+                <!-- COMPLAINT ID -->
+
+                <div class="tracking-id">
+
+                    <span>
+                        Complaint ID
+                    </span>
+
+                    <strong>
+                        {{ complaint.complaint_id }}
+                    </strong>
+
+                </div>
+
+
+                <!-- COMPLAINT INFORMATION -->
+
+                <div class="tracking-grid">
+
+                    <div class="tracking-item">
+
+                        <span>
+                            Issue
+                        </span>
+
+                        <strong>
+                            {{ complaint.issue_type }}
+                        </strong>
+
+                    </div>
+
+
+                    <div class="tracking-item">
+
+                        <span>
+                            Status
+                        </span>
+
+                        <strong>
+
+                            <span class="status-badge">
+                                {{ complaint.status }}
+                            </span>
+
+                        </strong>
+
+                    </div>
+
+
+                    <div class="tracking-item">
+
+                        <span>
+                            Location
+                        </span>
+
+                        <strong>
+                            {{ complaint.location }}
+                        </strong>
+
+                    </div>
+
+
+                    <div class="tracking-item">
+
+                        <span>
+                            Priority
+                        </span>
+
+                        <strong>
+                            {{ complaint.priority }}
+                        </strong>
+
+                    </div>
+
+
+                    {% if complaint.department %}
+
+                    <div class="tracking-item">
+
+                        <span>
+                            Responsible Department
+                        </span>
+
+                        <strong>
+                            {{ complaint.department }}
+                        </strong>
+
+                    </div>
+
+                    {% endif %}
+
+
+                    <div class="tracking-item">
+
+                        <span>
+                            Submitted
+                        </span>
+
+                        <strong>
+                            {{ complaint.created_at }}
+                        </strong>
+
+                    </div>
+
+                </div>
+
+
+                <!-- TIMELINE -->
+
+                <div class="timeline">
+
+                    <h2>
+                        Complaint Timeline
+                    </h2>
+
+
+                    <div class="timeline-item">
+
+                        <div class="timeline-dot"></div>
+
+                        <div>
+
+                            <h3>
+                                Complaint submitted
+                            </h3>
+
+                            <p>
+                                {{ complaint.created_at }}
+                            </p>
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="timeline-item">
+
+                        <div class="timeline-dot"></div>
+
+                        <div>
+
+                            <h3>
+                                Complaint is open
+                            </h3>
+
+                            <p>
+                                Your complaint has been registered
+                                and is being tracked by CivicPulse.
+                            </p>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+                <a href="/"
+                   class="btn btn-primary back-button">
+
+                    ← Back to CivicPulse
+
+                </a>
+
+            </div>
+
+        </div>
+
+    </main>
+
+
+    <!-- FOOTER -->
+
+    <footer class="footer">
+
+        <div class="footer-container">
+
+            <div class="footer-brand">
+
+                <a href="/" class="logo">
+
+                    <span class="logo-mark">
+                        CP
+                    </span>
+
+                    <span class="logo-text">
+                        Civic<span>Pulse</span>
+                    </span>
+
+                </a>
+
+                <p>
+                    Don't just report it. Make sure it gets resolved.
+                </p>
+
+            </div>
+
+        </div>
+
+    </footer>
+
+</body>
+
+</html>

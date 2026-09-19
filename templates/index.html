@@ -1,0 +1,771 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <meta name="description"
+          content="CivicPulse - Report and track civic issues in your city.">
+
+    <title>CivicPulse | Civic Issue Reporting</title>
+
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='style.css') }}">
+</head>
+
+<body>
+
+    <!-- ================= HEADER ================= -->
+
+    <header class="navbar">
+
+        <div class="nav-container">
+
+            <a href="/" class="logo">
+                <span class="logo-mark">CP</span>
+
+                <span class="logo-text">
+                    Civic<span>Pulse</span>
+                </span>
+            </a>
+
+            <nav class="nav-links">
+                <a href="#report">Report Issue</a>
+                <a href="#track">Track Complaint</a>
+                <a href="#about">About</a>
+            </nav>
+
+        </div>
+
+    </header>
+
+
+    <!-- ================= HERO ================= -->
+
+    <main>
+
+        <section class="hero">
+
+            <div class="hero-container">
+
+                <div class="hero-content">
+
+                    <div class="hero-badge">
+                        <span class="badge-dot"></span>
+                        Civic issue reporting made simple
+                    </div>
+
+                    <h1>
+                        Don't just report it.
+                        <span>Make sure it gets resolved.</span>
+                    </h1>
+
+                    <p class="hero-description">
+                        Report civic problems, keep track of your complaint,
+                        and stay informed about its progress.
+                    </p>
+
+                    <div class="hero-buttons">
+
+                        <a href="#report" class="btn btn-primary">
+                            Report an Issue
+                            <span>→</span>
+                        </a>
+
+                        <a href="#track" class="btn btn-secondary">
+                            Track Complaint
+                        </a>
+
+                    </div>
+
+                    <div class="hero-trust">
+
+                        <div class="trust-item">
+                            <strong>01</strong>
+                            <span>Report</span>
+                        </div>
+
+                        <div class="trust-line"></div>
+
+                        <div class="trust-item">
+                            <strong>02</strong>
+                            <span>Track</span>
+                        </div>
+
+                        <div class="trust-line"></div>
+
+                        <div class="trust-item">
+                            <strong>03</strong>
+                            <span>Resolve</span>
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+                <!-- Hero visual -->
+
+                <div class="hero-card-wrapper">
+
+                    <div class="hero-card">
+
+                        <div class="card-top">
+
+                            <div>
+                                <span class="small-label">
+                                    CIVICPULSE
+                                </span>
+
+                                <h3>
+                                    Your voice matters.
+                                </h3>
+                            </div>
+
+                            <div class="pulse-icon">
+                                <span></span>
+                            </div>
+
+                        </div>
+
+
+                        <div class="mini-status">
+
+                            <div class="status-icon">
+                                ✓
+                            </div>
+
+                            <div>
+
+                                <span class="status-label">
+                                    Complaint tracked
+                                </span>
+
+                                <strong>
+                                    CP-2026-0001
+                                </strong>
+
+                            </div>
+
+                        </div>
+
+
+                        <div class="progress-area">
+
+                            <div class="progress-header">
+
+                                <span>
+                                    Complaint progress
+                                </span>
+
+                                <span>
+                                    Active
+                                </span>
+
+                            </div>
+
+                            <div class="progress-bar">
+                                <div class="progress-fill"></div>
+                            </div>
+
+                        </div>
+
+
+                        <div class="mini-info">
+
+                            <div>
+                                <span>STATUS</span>
+                                <strong>Open</strong>
+                            </div>
+
+                            <div>
+                                <span>PRIORITY</span>
+                                <strong>High</strong>
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- ================= REPORT SECTION ================= -->
+
+        <section id="report" class="section report-section">
+
+            <div class="section-container">
+
+                <div class="section-heading">
+
+                    <span class="section-label">
+                        REPORT
+                    </span>
+
+                    <h2>
+                        Tell us what needs attention.
+                    </h2>
+
+                    <p>
+                        Submit a civic issue in a few simple steps.
+                        Your complaint will receive a unique tracking ID.
+                    </p>
+
+                </div>
+
+
+                <div class="form-card">
+
+                    <div class="form-header">
+
+                        <div class="form-icon">
+                            +
+                        </div>
+
+                        <div>
+                            <h3>Report a Civic Issue</h3>
+
+                            <p>
+                                Please provide accurate information
+                                about the issue.
+                            </p>
+                        </div>
+
+                    </div>
+
+
+                    {% if submitted %}
+
+                    <!-- SUCCESS MESSAGE -->
+
+                    <div class="success-box">
+
+                        <div class="success-icon">
+                            ✓
+                        </div>
+
+                        <div>
+
+                            <h3>
+                                Complaint submitted successfully!
+                            </h3>
+
+                            <p>
+                                Your complaint has been registered.
+                            </p>
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="complaint-result">
+
+                        <div class="result-header">
+                            <span>Your Complaint ID</span>
+
+                            <strong>
+                                {{ complaint.complaint_id }}
+                            </strong>
+                        </div>
+
+
+                        <div class="result-grid">
+
+                            <div class="result-item">
+                                <span>Issue</span>
+                                <strong>
+                                    {{ complaint.issue_type }}
+                                </strong>
+                            </div>
+
+                            <div class="result-item">
+                                <span>Status</span>
+                                <strong class="status-open">
+                                    {{ complaint.status }}
+                                </strong>
+                            </div>
+
+                            <div class="result-item">
+                                <span>Location</span>
+                                <strong>
+                                    {{ complaint.location }}
+                                </strong>
+                            </div>
+
+                            <div class="result-item">
+                                <span>Priority</span>
+                                <strong>
+                                    {{ complaint.priority }}
+                                </strong>
+                            </div>
+
+                            {% if complaint.department %}
+
+                            <div class="result-item result-full">
+
+                                <span>Responsible Department</span>
+
+                                <strong>
+                                    {{ complaint.department }}
+                                </strong>
+
+                            </div>
+
+                            {% endif %}
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="track-reminder">
+
+                        <span>💡</span>
+
+                        <p>
+                            <strong>Save your Complaint ID.</strong>
+                            You can use it later to track your complaint.
+                        </p>
+
+                    </div>
+
+                    <a href="#report" class="btn btn-primary full-btn">
+                        Report Another Issue
+                    </a>
+
+
+                    {% else %}
+
+                    <!-- REPORT FORM -->
+
+                    <form method="POST"
+                          action="/"
+                          class="complaint-form">
+
+
+                        <div class="form-group">
+
+                            <label for="issue_type">
+                                Issue Type
+                            </label>
+
+                            <select id="issue_type"
+                                    name="issue_type"
+                                    required>
+
+                                <option value="">
+                                    Select the type of issue
+                                </option>
+
+                                <option value="Pothole">
+                                    Pothole
+                                </option>
+
+                                <option value="Streetlight">
+                                    Streetlight
+                                </option>
+
+                                <option value="Garbage">
+                                    Garbage
+                                </option>
+
+                                <option value="Water Supply">
+                                    Water Supply
+                                </option>
+
+                                <option value="Drainage">
+                                    Drainage
+                                </option>
+
+                                <option value="Other">
+                                    Other
+                                </option>
+
+                            </select>
+
+                        </div>
+
+
+                        <div class="form-group">
+
+                            <label for="description">
+                                Describe the issue
+                            </label>
+
+                            <textarea
+                                id="description"
+                                name="description"
+                                rows="5"
+                                placeholder="Tell us what happened and what needs attention..."
+                                required></textarea>
+
+                            <span class="field-help">
+                                Please provide enough detail to help understand the problem.
+                            </span>
+
+                        </div>
+
+
+                        <div class="form-group">
+
+                            <label for="location">
+                                Location
+                            </label>
+
+                            <input
+                                type="text"
+                                id="location"
+                                name="location"
+                                placeholder="Example: Kuvempunagar, Mysuru"
+                                required>
+
+                        </div>
+
+
+                        <div class="form-group">
+
+                            <label for="priority">
+                                Priority
+                            </label>
+
+                            <select id="priority"
+                                    name="priority"
+                                    required>
+
+                                <option value="">
+                                    Select priority
+                                </option>
+
+                                <option value="Low">
+                                    Low — General issue
+                                </option>
+
+                                <option value="Medium">
+                                    Medium — Needs attention
+                                </option>
+
+                                <option value="High">
+                                    High — Urgent issue
+                                </option>
+
+                            </select>
+
+                        </div>
+
+
+                        <div class="form-note">
+
+                            <span>🔒</span>
+
+                            <p>
+                                Please provide genuine information.
+                                Accurate reports help civic authorities
+                                respond effectively.
+                            </p>
+
+                        </div>
+
+
+                        <button type="submit"
+                                class="btn btn-primary submit-btn">
+
+                            Submit Complaint
+
+                            <span>→</span>
+
+                        </button>
+
+                    </form>
+
+                    {% endif %}
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- ================= TRACK SECTION ================= -->
+
+        <section id="track" class="section track-section">
+
+            <div class="section-container">
+
+                <div class="track-card">
+
+                    <div class="track-content">
+
+                        <span class="section-label">
+                            TRACK
+                        </span>
+
+                        <h2>
+                            Already reported an issue?
+                        </h2>
+
+                        <p>
+                            Keep your Complaint ID handy.
+                            You can use it to follow the progress
+                            of your civic complaint.
+                        </p>
+
+                    </div>
+
+
+                    <div class="track-form">
+
+                        <label for="track-id">
+                            Complaint ID
+                        </label>
+
+                        <div class="track-input-row">
+
+                            <input
+                                type="text"
+                                id="track-id"
+                                placeholder="Example: CP-2026-0001">
+
+                            <button
+                                type="button"
+                                class="btn btn-primary"
+                                onclick="trackComplaint()">
+
+                                Track
+
+                            </button>
+
+                        </div>
+
+                        <p id="track-message"
+                           class="track-message">
+                        </p>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- ================= HOW IT WORKS ================= -->
+
+        <section class="section process-section">
+
+            <div class="section-container">
+
+                <div class="section-heading center-heading">
+
+                    <span class="section-label">
+                        HOW IT WORKS
+                    </span>
+
+                    <h2>
+                        Simple for citizens.
+                    </h2>
+
+                    <p>
+                        CivicPulse keeps the process clear from
+                        reporting to resolution.
+                    </p>
+
+                </div>
+
+
+                <div class="process-grid">
+
+
+                    <div class="process-card">
+
+                        <div class="process-number">
+                            01
+                        </div>
+
+                        <h3>
+                            Report
+                        </h3>
+
+                        <p>
+                            Tell us about the civic issue and
+                            where it is happening.
+                        </p>
+
+                    </div>
+
+
+                    <div class="process-card">
+
+                        <div class="process-number">
+                            02
+                        </div>
+
+                        <h3>
+                            Track
+                        </h3>
+
+                        <p>
+                            Receive a unique Complaint ID
+                            and keep track of your report.
+                        </p>
+
+                    </div>
+
+
+                    <div class="process-card">
+
+                        <div class="process-number">
+                            03
+                        </div>
+
+                        <h3>
+                            Follow Through
+                        </h3>
+
+                        <p>
+                            CivicPulse keeps the complaint's
+                            progress visible over time.
+                        </p>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- ================= ABOUT ================= -->
+
+        <section id="about" class="section about-section">
+
+            <div class="section-container">
+
+                <div class="about-card">
+
+                    <div>
+
+                        <span class="section-label">
+                            ABOUT CIVICPULSE
+                        </span>
+
+                        <h2>
+                            A clearer way to follow civic issues.
+                        </h2>
+
+                    </div>
+
+                    <p>
+                        CivicPulse is a prototype designed to make
+                        civic complaint follow-through easier to
+                        understand. Citizens should not have to wonder
+                        what happened after submitting a complaint.
+                    </p>
+
+                </div>
+
+            </div>
+
+        </section>
+
+    </main>
+
+
+    <!-- ================= FOOTER ================= -->
+
+    <footer class="footer">
+
+        <div class="footer-container">
+
+            <div class="footer-brand">
+
+                <a href="/" class="logo">
+
+                    <span class="logo-mark">
+                        CP
+                    </span>
+
+                    <span class="logo-text">
+                        Civic<span>Pulse</span>
+                    </span>
+
+                </a>
+
+                <p>
+                    Don't just report it. Make sure it gets resolved.
+                </p>
+
+            </div>
+
+
+            <div class="footer-right">
+
+                <span>
+                    HACKMYSURU 1.0 · 2026
+                </span>
+
+                <span>
+                    Civic Governance & Clean Mysuru
+                </span>
+
+            </div>
+
+        </div>
+
+    </footer>
+
+
+    <!-- ================= JAVASCRIPT ================= -->
+
+    <script>
+
+        function trackComplaint() {
+
+            const input =
+                document.getElementById("track-id");
+
+            const message =
+                document.getElementById("track-message");
+
+            const complaintId =
+                input.value.trim();
+
+
+            if (!complaintId) {
+
+                message.textContent =
+                    "Please enter your Complaint ID.";
+
+                message.className =
+                    "track-message error";
+
+                return;
+
+            }
+
+
+            /*
+             * Tracking page will be connected to the
+             * Flask backend later.
+             */
+
+            window.location.href =
+                "/track/" + encodeURIComponent(complaintId);
+
+        }
+
+    </script>
+
+</body>
+
+</html>
