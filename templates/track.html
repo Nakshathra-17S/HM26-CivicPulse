@@ -2,19 +2,14 @@
 <html lang="en">
 
 <head>
-
     <meta charset="UTF-8">
-
-    <meta name="viewport"
-          content="width=device-width, initial-scale=1.0">
-
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>CivicPulse | Track Complaint</title>
 
     <link rel="stylesheet"
           href="{{ url_for('static', filename='style.css') }}">
 
     <style>
-
         .tracking-page {
             min-height: 80vh;
             padding: 80px 24px;
@@ -30,8 +25,7 @@
             border: 1px solid #e1e7ee;
             border-radius: 18px;
             padding: 35px;
-            box-shadow:
-                0 15px 40px rgba(34, 48, 64, 0.06);
+            box-shadow: 0 15px 40px rgba(34, 48, 64, 0.06);
         }
 
         .tracking-header {
@@ -84,7 +78,7 @@
             padding: 17px;
         }
 
-        .tracking-item span {
+        .tracking-item span.label {
             display: block;
             color: #8993a1;
             font-size: 10px;
@@ -108,6 +102,41 @@
             font-size: 12px;
         }
 
+        .status-message {
+            margin-top: 25px;
+            padding: 18px;
+            border-radius: 14px;
+            background: #f0f9ff;
+            border: 1px solid #d8edf7;
+        }
+
+        .status-message .eyebrow {
+            color: #176b87;
+            font-size: 10px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .status-message h2 {
+            margin-top: 6px;
+            font-size: 20px;
+            color: #172033;
+        }
+
+        .status-message p {
+            margin-top: 6px;
+            color: #607080;
+            line-height: 1.6;
+            font-size: 13px;
+        }
+
+        .updated-note {
+            margin-top: 8px;
+            font-size: 11px !important;
+            color: #8a95a3 !important;
+        }
+
         .timeline {
             margin-top: 35px;
         }
@@ -127,10 +156,18 @@
         .timeline-dot {
             width: 13px;
             height: 13px;
-            background: #176b87;
+            background: #cbd5df;
             border-radius: 50%;
             margin-top: 5px;
             flex-shrink: 0;
+        }
+
+        .timeline-dot.active {
+            background: #176b87;
+        }
+
+        .timeline-dot.current {
+            box-shadow: 0 0 0 5px #dff3f7;
         }
 
         .timeline-item:not(:last-child)::before {
@@ -145,12 +182,18 @@
 
         .timeline-item h3 {
             font-size: 14px;
+            color: #263345;
+        }
+
+        .timeline-item.pending h3 {
+            color: #8a95a3;
         }
 
         .timeline-item p {
             font-size: 12px;
             color: #7a8697;
             margin-top: 3px;
+            line-height: 1.5;
         }
 
         .back-button {
@@ -158,7 +201,6 @@
         }
 
         @media (max-width: 600px) {
-
             .tracking-page {
                 padding: 50px 17px;
             }
@@ -174,282 +216,167 @@
             .tracking-header h1 {
                 font-size: 30px;
             }
-
         }
-
     </style>
-
 </head>
-
 
 <body>
 
-    <!-- NAVBAR -->
-
     <header class="navbar">
-
         <div class="nav-container">
-
             <a href="/" class="logo">
-
-                <span class="logo-mark">
-                    CP
-                </span>
-
-                <span class="logo-text">
-                    Civic<span>Pulse</span>
-                </span>
-
+                <span class="logo-mark">CP</span>
+                <span class="logo-text">Civic<span>Pulse</span></span>
             </a>
 
             <nav class="nav-links">
-
-                <a href="/">
-                    Home
-                </a>
-
-                <a href="/#report">
-                    Report Issue
-                </a>
-
-                <a href="/#about">
-                    About
-                </a>
-
+                <a href="/">Home</a>
+                <a href="/#report">Report Issue</a>
+                <a href="/#about">About</a>
             </nav>
-
         </div>
-
     </header>
 
-
-    <!-- TRACKING PAGE -->
-
     <main class="tracking-page">
-
         <div class="tracking-container">
 
             <div class="tracking-card">
 
                 <div class="tracking-header">
+                    <span class="section-label">COMPLAINT TRACKING</span>
 
-                    <span class="section-label">
-                        COMPLAINT TRACKING
-                    </span>
-
-                    <h1>
-                        Track your complaint
-                    </h1>
+                    <h1>Track your complaint</h1>
 
                     <p>
-                        Here is the latest information available
-                        for your civic complaint.
+                        See whether your complaint has been viewed,
+                        is being worked on, or has been resolved.
                     </p>
-
                 </div>
-
-
-                <!-- COMPLAINT ID -->
 
                 <div class="tracking-id">
-
-                    <span>
-                        Complaint ID
-                    </span>
-
-                    <strong>
-                        {{ complaint.complaint_id }}
-                    </strong>
-
+                    <span>Complaint ID</span>
+                    <strong>{{ complaint.complaint_id }}</strong>
                 </div>
-
-
-                <!-- COMPLAINT INFORMATION -->
 
                 <div class="tracking-grid">
 
                     <div class="tracking-item">
-
-                        <span>
-                            Issue
-                        </span>
-
-                        <strong>
-                            {{ complaint.issue_type }}
-                        </strong>
-
+                        <span class="label">Issue</span>
+                        <strong>{{ complaint.issue_type }}</strong>
                     </div>
 
-
                     <div class="tracking-item">
-
-                        <span>
-                            Status
-                        </span>
-
+                        <span class="label">Current Status</span>
                         <strong>
-
                             <span class="status-badge">
                                 {{ complaint.status }}
                             </span>
-
                         </strong>
-
                     </div>
-
 
                     <div class="tracking-item">
-
-                        <span>
-                            Location
-                        </span>
-
-                        <strong>
-                            {{ complaint.location }}
-                        </strong>
-
+                        <span class="label">Location</span>
+                        <strong>{{ complaint.location }}</strong>
                     </div>
-
 
                     <div class="tracking-item">
-
-                        <span>
-                            Priority
-                        </span>
-
-                        <strong>
-                            {{ complaint.priority }}
-                        </strong>
-
+                        <span class="label">Priority</span>
+                        <strong>{{ complaint.priority }}</strong>
                     </div>
-
 
                     {% if complaint.department %}
-
                     <div class="tracking-item">
-
-                        <span>
-                            Responsible Department
-                        </span>
-
-                        <strong>
-                            {{ complaint.department }}
-                        </strong>
-
+                        <span class="label">Responsible Department</span>
+                        <strong>{{ complaint.department }}</strong>
                     </div>
-
                     {% endif %}
 
-
                     <div class="tracking-item">
-
-                        <span>
-                            Submitted
-                        </span>
-
-                        <strong>
-                            {{ complaint.created_at }}
-                        </strong>
-
+                        <span class="label">Submitted</span>
+                        <strong>{{ complaint.created_at }}</strong>
                     </div>
 
                 </div>
 
+                <div class="status-message">
+                    <div class="eyebrow">Latest Department Update</div>
 
-                <!-- TIMELINE -->
+                    <h2>{{ complaint.status }}</h2>
+
+                    <p>{{ complaint.status_message }}</p>
+
+                    <p class="updated-note">
+                        Last status update: {{ complaint.last_updated_at }}
+                    </p>
+                </div>
 
                 <div class="timeline">
 
-                    <h2>
-                        Complaint Timeline
-                    </h2>
+                    <h2>Follow-through Timeline</h2>
 
+                    {% set current_index = status_order.index(complaint.status) %}
 
-                    <div class="timeline-item">
+                    {% for step in status_order %}
+                    {% set step_index = loop.index0 %}
+                    {% set history_item = none %}
 
-                        <div class="timeline-dot"></div>
+                    {% for item in complaint.status_history %}
+                        {% if item.status == step %}
+                            {% set history_item = item %}
+                        {% endif %}
+                    {% endfor %}
+
+                    <div class="timeline-item {% if step_index > current_index %}pending{% endif %}">
+
+                        <div class="timeline-dot
+                            {% if step_index <= current_index %}active{% endif %}
+                            {% if step_index == current_index %}current{% endif %}">
+                        </div>
 
                         <div>
+                            <h3>{{ step }}</h3>
 
-                            <h3>
-                                Complaint submitted
-                            </h3>
-
+                            {% if history_item %}
                             <p>
-                                {{ complaint.created_at }}
+                                {{ history_item.message }}<br>
+                                {{ history_item.updated_at }}
                             </p>
-
+                            {% elif step == "Viewed by Department" %}
+                            <p>Waiting for the department to view the complaint.</p>
+                            {% elif step == "Action in Progress" %}
+                            <p>Waiting for the department to begin action.</p>
+                            {% elif step == "Resolved" %}
+                            <p>The complaint will appear here when the department marks it resolved.</p>
+                            {% endif %}
                         </div>
 
                     </div>
-
-
-                    <div class="timeline-item">
-
-                        <div class="timeline-dot"></div>
-
-                        <div>
-
-                            <h3>
-                                Complaint is open
-                            </h3>
-
-                            <p>
-                                Your complaint has been registered
-                                and is being tracked by CivicPulse.
-                            </p>
-
-                        </div>
-
-                    </div>
+                    {% endfor %}
 
                 </div>
 
-
-                <a href="/"
-                   class="btn btn-primary back-button">
-
+                <a href="/" class="btn btn-primary back-button">
                     ← Back to CivicPulse
-
                 </a>
 
             </div>
-
         </div>
-
     </main>
 
-
-    <!-- FOOTER -->
-
     <footer class="footer">
-
         <div class="footer-container">
-
             <div class="footer-brand">
-
                 <a href="/" class="logo">
-
-                    <span class="logo-mark">
-                        CP
-                    </span>
-
-                    <span class="logo-text">
-                        Civic<span>Pulse</span>
-                    </span>
-
+                    <span class="logo-mark">CP</span>
+                    <span class="logo-text">Civic<span>Pulse</span></span>
                 </a>
 
                 <p>
                     Don't just report it. Make sure it gets resolved.
                 </p>
-
             </div>
-
         </div>
-
     </footer>
 
 </body>
-
 </html>
